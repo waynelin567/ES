@@ -54,7 +54,7 @@ int main(void) {
   //nrf_delay_ms(3000);  
   
   uint32_t toggle0 = virtual_timer_start_repeated(1000000, led0_toggle);
-  //uint32_t toggle1 = virtual_timer_start_repeated(2000000, led1_toggle);
+  uint32_t toggle1 = virtual_timer_start_repeated(2000000, led1_toggle);
   //list_print();
   //nrf_delay_ms(3000);
   //irrelevant = virtual_timer_start(2000000, led2_toggle);
@@ -69,6 +69,5 @@ int main(void) {
     uint32_t timer_counter = read_timer();
     printf("Timer value: %ld\n", timer_counter);
     nrf_delay_ms(1000);
- 
   }
 }

@@ -8,6 +8,16 @@
 #include "virtual_timer_linked_list.h"
 
 // This is the interrupt handler that fires on a compare event
+void handle_expired_head()
+{
+    node_t* expired_node = list_get_first();
+    expired_node->cb();
+    virtual_timer_start_repeated(expired_node->microseconds, expired_node->cb);
+    list_remove(expired_node);
+    free(expired_node);
+    if (read_timer() > list_get_first()->timer_value)
+      handle_expired_head();
+}
 void TIMER4_IRQHandler(void) {
   // This should always be the first line of the interrupt handler!
   // It clears the event so that it doesn't happen again
@@ -19,6 +29,8 @@ void TIMER4_IRQHandler(void) {
     virtual_timer_start_repeated(timer_node->microseconds, timer_node->cb);
     list_remove(timer_node);
     free(timer_node);
+    if (read_timer() > list_get_first()->timer_value)
+      handle_expired_head();
     NRF_TIMER4->CC[2] = list_get_first()->timer_value;
   }
   else 

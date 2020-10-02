@@ -40,7 +40,6 @@ void TIMER4_IRQHandler(void) {
     if (list_get_first()!=NULL)
       NRF_TIMER4->CC[2] = list_get_first()->timer_value;
   }
-  list_print();
   // Place your interrupt handler code here
 }
 // Read the current value of the timer counter
@@ -62,7 +61,7 @@ void virtual_timer_init(void) {
 }
 
 static uint32_t timer_start(uint32_t microseconds, virtual_timer_callback_t cb, bool repeated) {
-  //__disable_irq();
+  __disable_irq();
   node_t* timer = malloc(sizeof(node_t));
   uint32_t current_time = read_timer();
   uint32_t next_interrupt_time = current_time + microseconds;
@@ -77,7 +76,7 @@ static uint32_t timer_start(uint32_t microseconds, virtual_timer_callback_t cb, 
   {
     NRF_TIMER4->CC[2] = timer_node->timer_value;
   }
-  //__enable_irq();
+  __enable_irq();
   // Return a unique timer ID. (hint: What is guaranteed unique about the timer you have created?)
   return (uint32_t) timer_node;
 }

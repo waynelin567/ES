@@ -20,12 +20,9 @@
 #include "virtual_timer.h"
 void led0_toggle() {
     nrf_gpio_pin_toggle(BUCKLER_LED0);
-    printf("LED toggled!\n");
 }
 void led1_toggle() {
     nrf_gpio_pin_toggle(BUCKLER_LED1);
-    printf("LED toggled!\n");
-
 }
 void led2_toggle() {
     nrf_gpio_pin_toggle(BUCKLER_LED2);
@@ -53,8 +50,8 @@ int main(void) {
   virtual_timer_init();
   //nrf_delay_ms(3000);  
   
-  uint32_t toggle0 = virtual_timer_start_repeated(1000000, led0_toggle);
-  uint32_t toggle1 = virtual_timer_start_repeated(2000000, led1_toggle);
+  uint32_t toggle0 = virtual_timer_start_repeated(1000, led0_toggle);
+  uint32_t toggle1 = virtual_timer_start_repeated(2000, led1_toggle);
   //list_print();
   //nrf_delay_ms(3000);
   //irrelevant = virtual_timer_start(2000000, led2_toggle);
